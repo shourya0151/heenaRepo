@@ -4,19 +4,18 @@ const app = express();
 const authRoutes = require('./routes/authRoutes');
 const taskRouter = require('./routes/taskRoutes');
 const morgan = require('morgan');
-
-
-
+require('dotenv').config()
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb+srv://test:12345@cluster0.you7nqg.mongodb.net/?retryWrites=true&w=majority';
+
+
 const options = {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 };
 
 mongoose
-	.connect(mongoURI, options)
+	.connect(process.env.MONGO, options)
 	.then(() => {
 		console.log('Connected to MongoDB');
 		// Start your application or perform additional operations
