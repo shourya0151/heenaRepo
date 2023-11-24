@@ -1,13 +1,16 @@
 const cors = require('cors');
 const express = require('express');
-const app = express();
+
 const authRoutes = require('./routes/authRoutes');
 const taskRouter = require('./routes/taskRoutes');
 const morgan = require('morgan');
 require('dotenv').config()
 const mongoose = require('mongoose');
+import path from 'path';
 
+const __dirname = path.resolve();
 
+const app = express();
 
 const options = {
 	useNewUrlParser: true,
@@ -29,6 +32,11 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/task', taskRouter);
+
+app.use(express.static(path.join(__dirname,'/client/dist')));
+app.get('*',(req,res) => {
+    res.sendFile(path.join(__dirname,'client','dist','index.html'));
+})
 
 // localhost:4000/auth/register
 
